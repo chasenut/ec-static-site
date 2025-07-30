@@ -48,3 +48,57 @@ def extract_markdown_links(text):
     pattern = r"\[([^\[\]]*)\]\(([^\(\)]*)\)"
     return re.findall(pattern, text)
 
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            new_nodes.append(node)
+            continue
+        markdown_images = extract_markdown_images(node.text)
+        if not markdown_images and node.text:
+            new_nodes.append(node)
+            continue
+        text = node.text
+        l = []
+        for image in markdown_images:
+            parts = text.split(f"![{image[0]}]({image[1]})", maxsplit=1)
+            if parts[0]:
+                l.append(TextNode(parts[0], TextType.TEXT))
+            l.append(TextNode(image[0], TextType.IMAGE, image[1]))
+            text = parts[1]
+        if text:
+            l.append(TextNode(text, TextType.TEXT))
+        new_nodes.extend(l)
+    return new_nodes
+
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            new_nodes.append(node)
+            continue
+        markdown_links = extract_markdown_links(node.text)
+        if not markdown_links and node.text:
+            new_nodes.append(node)
+            continue
+        text = node.text
+        l = []
+        for link in markdown_links:
+            parts = text.split(f"[{link[0]}]({link[1]})", maxsplit=1)
+            if parts[0]:
+                l.append(TextNode(parts[0], TextType.TEXT))
+            l.append(TextNode(link[0], TextType.LINK, link[1]))
+            text = parts[1]
+        if text:
+            l.append(TextNode(text, TextType.TEXT))
+        new_nodes.extend(l)
+    return new_nodes
+
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
