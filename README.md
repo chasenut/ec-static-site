@@ -45,12 +45,12 @@ to `index.html`:
 
 ### Code
 `index.md`:
-``` 
-\`\`\`
+```` 
+```
 def be_amazing():
     repo.star()
-\`\`\`
 ```
+````
 to `index.html`:
 ```
 <pre><code>def be_amazing():
