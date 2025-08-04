@@ -11,7 +11,7 @@ transfered to `./public` alongside resources from `./static` directory.
 
 ## Features
 
-Supported syntax conversion:
+Supported **block** syntax conversion:
 
 ### Plain text
 `index.md`:
@@ -42,3 +42,131 @@ to `index.html`:
 <h5>Header 5</h5>
 <h6>Header 6</h6>
 ```
+
+### Code
+`index.md`:
+``` 
+\`\`\`
+def be_amazing():
+    repo.star()
+\`\`\`
+```
+to `index.html`:
+```
+<pre><code>def be_amazing():
+    repo.star()
+</code></pre>
+```
+
+### Quote
+`index.md`:
+```
+> "An idiot admires complexity, a genius admires simplicity."
+> 
+> -- Terry A. Davis
+``` 
+to `index.html`:
+```
+<blockquote>"An idiot admires complexity, a genius admires simplicity"  -- Terry A. Davis</blockquote>
+```
+
+### Unordered list
+`index.md`:
+```
+- vim
+- arch
+- split keyboard
+```
+to `index.html`:
+```
+<ul><li>vim</li><li>arch</li><li>split keyboard</li></ul>
+```
+
+### Ordered list
+`index.md`:
+```
+1. vim
+2. arch
+3. split keyboard
+```
+to `index.html`:
+```
+<ol><li>vim</li><li>arch</li><li>split keyboard</li></ol>
+```
+
+Supported **inline** syntax conversion:
+
+### Bold
+`index.md`:
+```
+This is **bold** text
+```
+to `index.html`:
+```
+This is <b>bold</b> text
+```
+
+### Italic
+`index.md`:
+```
+This is _italic_ text
+```
+to `index.html`:
+``` 
+This is <i>italic</i> text
+```
+ 
+### Code
+`index.md`:
+```
+This is `code` text
+```
+to `index.html`:
+```
+This is <code>code</code> text
+```
+
+### Link
+`index.md`:
+```
+This is [link](https://your.link.here) element
+```
+to `index.html`:
+```
+This is <a href="https://your.link.here">link</a> element
+```
+
+### Image
+`index.md`:
+```
+This is ![image](./path/to/img.png) element
+```
+to `index.html`:
+```
+This is <img src="./path/to/img.png"> element
+```
+
+## Syntax
+
+Markdown has some rules when writting page, some of which are:
+
+- Document must have at least one `<h1>` header (`# Header lvl 1`) which will 
+be used as page title
+- All blocks must be separated by one empty line
+- No inline formatting will be rendered in the `code` block
+
+# Run
+
+Once you have created your desired pages in markdown, run:
+
+```
+./main.sh
+```
+
+This will overwrite `./public` directory with new content and host it on 
+`http://localhost:8888/`.
+
+
+## Credit
+
+Project made as a part of [boot.dev](https://www.boot.dev) course.
