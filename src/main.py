@@ -13,7 +13,7 @@ public_path = "./docs"
 def main():
     basepath = "/"
     if len(sys.argv) > 1:
-        base_path = sys.argv[1]
+        basepath = sys.argv[1]
 
     copy_files_recursive(static_path, public_path)
     generate_pages_recursive(content_path, template_path, public_path, basepath)
