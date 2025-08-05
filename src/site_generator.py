@@ -10,7 +10,7 @@ def extract_title(markdown):
             return text
     raise SyntaxError("No page title found (h1 header)")
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     from_file = ""
     with open(from_path, "r") as f:
@@ -25,6 +25,9 @@ def generate_page(from_path, template_path, dest_path):
     html_file = html_file.replace("{{ Title }}", title)
     html_file = html_file.replace("{{ Content }}", content)
 
+    html_file = html_file.replace("href=\"", f"href=\"{basepath}")
+    html_file = html_file.replace("src=\"", f"src=\"{basepath}")
+
     dirname = os.path.dirname(dest_path)
     os.makedirs(dirname, exist_ok=True)
 
@@ -34,13 +37,13 @@ def generate_page(from_path, template_path, dest_path):
     with open(dest_path, "w") as f:
         f.write(html_file)
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     entries = os.listdir(dir_path_content)
     for entry in entries:
         content = os.path.join(dir_path_content, entry)
         destination = os.path.join(dest_dir_path, entry)
         if os.path.isdir(content):
-            generate_pages_recursive(content, template_path, destination)
+            generate_pages_recursive(content, template_path, destination, basepath)
         else:
-            generate_page(content, template_path, destination)
+            generate_page(content, template_path, destination, basepath)
 

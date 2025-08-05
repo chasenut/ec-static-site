@@ -7,7 +7,7 @@ documents in `./content` directory and resources in `./static` directory.
 
 Program scans `./content` directory and converts all `markdown` files to 
 their `html` representatives, which are later inserted into `template.html` and 
-transfered to `./public` alongside resources from `./static` directory.
+transfered to `./docs` alongside resources from `./static` directory.
 
 ## Features
 
@@ -159,11 +159,17 @@ be used as page title
 
 Once you have created your desired pages in markdown, run:
 
+``` 
+./build.sh
+``` 
+
+This will build your website to `./docs` directory, or use:
+
 ```
 ./main.sh
 ```
 
-This will overwrite `./public` directory with new content and host it on 
+This will build the site and host it on 
 `http://localhost:8888/`.
 
 
